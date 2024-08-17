@@ -1,0 +1,11 @@
+#### 8. `configs/hyperparams.yaml`
+하이퍼파라미터 설정 파일입니다.
+
+```yaml
+epochs: 10
+learning_rate: 1e-5
+batch_size: 2
+dropout_prob: 0.7
+early_stop_patient: 3
+weight_decay: 0.01
+model_name: "beomi/KcELECTRA-base-v2022"

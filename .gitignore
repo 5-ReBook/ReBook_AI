@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+
+# C extensions
+*.c
+
+# Environment variables and config files
+.env
+config/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Model checkpoints and logs
+checkpoints/
+logs/
+
+# Virtual environment directories
+venv/
+.env/
+
+# Pytest cache
+.pytest_cache/
+
+# Dataset or large data files
+data/*.csv
+data/*.json
+
+# Ignore system files
+.DS_Store
+Thumbs.db
