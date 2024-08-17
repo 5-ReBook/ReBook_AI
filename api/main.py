@@ -12,7 +12,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # 디바이스 설정 (GPU 사용 가능 시 GPU, 그렇지 않으면 CPU 사용)
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 model.eval()
 
