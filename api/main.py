@@ -1,16 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from transformers import AutoTokenizer
-from models.model import load_model
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from data.transforms import preprocess_text
 import torch
 
 app = FastAPI()
 
-# 모델 및 토크나이저 로드
-model_name = "beomi/KcELECTRA-base-v2022"
-model = load_model(model_name, num_labels=4)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+# 모델 및 토크나이저 로드 (학습된 모델 불러오기)
+model_path = "./checkpoints/best_model"  # 학습된 모델이 저장된 경로로 수정
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # 디바이스 설정 (GPU 사용 가능 시 GPU, 그렇지 않으면 CPU 사용)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -19,18 +18,18 @@ model.eval()
 
 # 요청 데이터 모델 정의
 class ChatRequest(BaseModel):
-    chat_room_id: str
-    sender_id: str
+    chat_room_id: int
+    sender_id: int
     message: str
 
 # 응답 데이터 모델 정의
 class ChatResponse(BaseModel):
-    chat_room_id: str
-    sender_id: str
+    chat_room_id: int
+    sender_id: int
     result: int
     warning_message: str = None
 
-# 메시지 예측 함수
+# 메시지 예측 함수 (POST 요청 처리)
 @app.post("/predict", response_model=ChatResponse)
 def predict_chat(chat: ChatRequest):
     try:
