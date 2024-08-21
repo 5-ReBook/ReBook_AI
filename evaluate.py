@@ -1,8 +1,7 @@
 import pandas as pd
-from transformers import AutoTokenizer, TrainingArguments, Trainer
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
 from data.dataset import CurseDataset
 from data.transforms import preprocess_text
-from models.model import load_model
 from utils.performance_metrics import compute_metrics
 import psutil
 import os
@@ -26,9 +25,8 @@ test_df = pd.read_csv(test_file_path)
 test_df['text'] = test_df['text'].apply(preprocess_text)
 
 # 토크나이저 및 모델 로드
-model_path = "./checkpoints/best_model"  # 학습된 모델이 저장된 경로
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = load_model(model_path, num_labels=4)
+tokenizer = AutoTokenizer.from_pretrained("hyeongc/SafeTradeGuard_v2")
+model = AutoModelForSequenceClassification.from_pretrained("hyeongc/SafeTradeGuard_v2")
 
 # 테스트 데이터 토크나이징 및 CurseDataset 생성
 tokenized_test_sentences = tokenizer(
