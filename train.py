@@ -24,10 +24,10 @@ model_name = "beomi/KcELECTRA-base-v2022"
 early_stop_patient = 3
 
 # WandB 설정
-wandb.init(project="KTB_4.5Team_Project", name=f'train_{2}_{lr}_{batch_size}_text_classification')
+wandb.init(project="KTB_4.5Team_Project", name=f'{1}_{lr}_{batch_size}_text_classification')
 
 # 데이터 로드 및 전처리
-data_file_path = './data/chat_dataset_final_v22.csv'
+data_file_path = './data/chat_dataset_final_v12.csv'
 df = pd.read_csv(data_file_path)
 df['text'] = df['text'].apply(preprocess_text)
 
@@ -96,7 +96,7 @@ class CustomTrainer(Trainer):
 
 # 학습 인자 설정
 training_args = TrainingArguments(
-    output_dir='./checkpoints/model_v2_checkpoints',
+    output_dir='./checkpoints',
     num_train_epochs=epochs,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=16,
@@ -106,7 +106,7 @@ training_args = TrainingArguments(
     logging_steps=500,
     save_total_limit=2,
     report_to="wandb",
-    run_name="text_classification_v2",
+    run_name="text_classification",
     load_best_model_at_end=True,
     metric_for_best_model="accuracy",
     evaluation_strategy="epoch",  # 매 에포크마다 평가
@@ -135,7 +135,7 @@ for param in model.parameters():
 trainer.train()
 
 # 모델 학습 완료 후 저장
-MODEL_SAVE_PATH = './checkpoints/best_model_v2'
+MODEL_SAVE_PATH = './checkpoints/best_model'
 model.save_pretrained(MODEL_SAVE_PATH)  # 모델과 토크나이저를 함께 저장
 tokenizer.save_pretrained(MODEL_SAVE_PATH)
 print(f"Model and tokenizer saved to {MODEL_SAVE_PATH}")
