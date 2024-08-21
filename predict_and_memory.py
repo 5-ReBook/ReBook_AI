@@ -18,13 +18,12 @@ def get_memory_usage():
         "used_memory_MB": system_mem.used / (1024 * 1024),  # 시스템에서 사용 중인 메모리 (MB)
     }
 
-# 모델 및 토크나이저 로드 (학습된 모델 불러오기)
-model_path = "./checkpoints/best_model"  # 학습된 모델이 저장된 경로
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
-tokenizer = AutoTokenizer.from_pretrained(model_path)
+# 토크나이저 및 모델 로드
+tokenizer = AutoTokenizer.from_pretrained("hyeongc/SafeTradeGuard_v2")
+model = AutoModelForSequenceClassification.from_pretrained("hyeongc/SafeTradeGuard_v2")
 
 # 디바이스 설정 (GPU 사용 가능 시 GPU, 그렇지 않으면 CPU 사용)
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 model.eval()
 
