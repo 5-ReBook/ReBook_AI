@@ -7,7 +7,7 @@ from typing import Optional
 
 app = FastAPI()
 
-# 모델 및 토크나이저 로드 (SafeTradeGuard_v1 모델 불러오기)
+# 모델 및 토크나이저 로드 (SafeTradeGuard_v2 모델 불러오기)
 model_name = "hyeongc/SafeTradeGuard_v2"
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
