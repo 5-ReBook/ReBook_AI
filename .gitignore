@@ -32,3 +32,6 @@ data/*.json
 # Ignore system files
 .DS_Store
 Thumbs.db
+
+# Ignore vscode
+.vscode/
