@@ -1,5 +1,3 @@
-# utils/performance_metrics.py
-
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -18,16 +16,11 @@ def compute_metrics(pred):
     preds = pred.predictions.argmax(-1)
     precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average='micro')
     acc = accuracy_score(labels, preds)
-    
-    # 추가로 혼동 행렬을 계산할 수 있습니다.
-    conf_matrix = confusion_matrix(labels, preds)
-    
     return {
         'accuracy': acc,
         'f1': f1,
         'precision': precision,
-        'recall': recall,
-        'confusion_matrix': conf_matrix  # 혼동 행렬도 반환
+        'recall': recall
     }
 
 def plot_confusion_matrix(y_true, y_pred, labels):
