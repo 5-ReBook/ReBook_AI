@@ -45,3 +45,5 @@ results/
 logs/
 tests/
 tmp_trainer/
+# Ignore vscode
+.vscode/
