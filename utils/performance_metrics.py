@@ -12,7 +12,7 @@ def compute_metrics(pred):
         pred: 모델 예측 결과
     
     Returns:
-        metrics (dict): 정확도, F1 스코어, 정밀도, 재현율
+        metrics (dict): 정확도, F1 스코어, 정밀도, 재현율, 혼동 행렬
     """
     labels = pred.label_ids
     preds = pred.predictions.argmax(-1)
@@ -27,7 +27,7 @@ def compute_metrics(pred):
         'f1': f1,
         'precision': precision,
         'recall': recall,
-        'confusion_matrix': conf_matrix  # 혼동 행렬도 반환
+        'confusion_matrix': conf_matrix.tolist()  # 혼동 행렬을 리스트로 변환해서 반환
     }
 
 def plot_confusion_matrix(y_true, y_pred, labels):
