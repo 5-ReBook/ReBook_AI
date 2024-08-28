@@ -1,32 +1,24 @@
 import pandas as pd
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
+import wandb
+from transformers import AutoTokenizer, TrainingArguments, Trainer
 from data.dataset import CurseDataset
 from data.transforms import preprocess_text
+from models.model import load_model
 from utils.performance_metrics import compute_metrics
-import psutil
+from configs.environment import TEST_DATA_PATH
 import os
 
-# 메모리 사용량 체크 함수
-def get_memory_usage():
-    process = psutil.Process(os.getpid())
-    mem_info = process.memory_info()
-    system_mem = psutil.virtual_memory()
-    
-    return {
-        "process_memory_MB": mem_info.rss / (1024 * 1024),  # 현재 프로세스 메모리 사용량 (MB)
-        "total_memory_MB": system_mem.total / (1024 * 1024),  # 시스템 전체 메모리 (MB)
-        "available_memory_MB": system_mem.available / (1024 * 1024),  # 사용 가능한 메모리 (MB)
-        "used_memory_MB": system_mem.used / (1024 * 1024),  # 시스템에서 사용 중인 메모리 (MB)
-    }
+# W&B 로그인
+wandb.login()
 
 # 테스트 데이터 로드 및 전처리
-test_file_path = './data/test_chat_dataset_v6.csv'
-test_df = pd.read_csv(test_file_path)
+test_df = pd.read_csv(TEST_DATA_PATH)  # 환경 변수에서 테스트 데이터 경로 사용
 test_df['text'] = test_df['text'].apply(preprocess_text)
 
 # 토크나이저 및 모델 로드
-tokenizer = AutoTokenizer.from_pretrained("hyeongc/SafeTradeGuard_v2")
-model = AutoModelForSequenceClassification.from_pretrained("hyeongc/SafeTradeGuard_v2")
+model_path = "./checkpoints/best_model_v10"  # 학습된 모델이 저장된 경로
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = load_model(model_path, num_labels=4)
 
 # 테스트 데이터 토크나이징 및 CurseDataset 생성
 tokenized_test_sentences = tokenizer(
@@ -42,10 +34,12 @@ test_dataset = CurseDataset(tokenized_test_sentences, test_label)
 
 # 평가 인자 설정
 training_args = TrainingArguments(
-    output_dir='./results',
+    output_dir='./results',  
     per_device_eval_batch_size=16,
     do_eval=True,
-    logging_dir='./logs',
+    logging_dir='./logs',  
+    report_to="wandb",  # 평가 과정도 W&B에 기록
+    run_name="model_v10_text_classification_evaluation"  # W&B에서 실행 이름 지정
 )
 
 # Trainer 설정
@@ -59,12 +53,11 @@ trainer = Trainer(
 # 평가 수행
 metrics = trainer.evaluate(eval_dataset=test_dataset)
 
+# 평가 결과 W&B에 기록
+wandb.log(metrics)
+
 # 평가 결과 출력
 print(metrics)
 
-# 평가 완료 후 메모리 사용량 출력
-memory_usage = get_memory_usage()
-print(f"Final Memory Usage - Process Memory: {memory_usage['process_memory_MB']:.2f} MB, "
-      f"Total Memory: {memory_usage['total_memory_MB']:.2f} MB, "
-      f"Used Memory: {memory_usage['used_memory_MB']:.2f} MB, "
-      f"Available Memory: {memory_usage['available_memory_MB']:.2f} MB")
+# W&B 종료
+wandb.finish()
