@@ -16,4 +16,8 @@ models/model.py
 models/utils.py
 
 # 유틸리티 파일들 제외
-utils/
+utils/__init__.py
+utils/config_utils.py
+utils/debug_utils.py
+utils/logging_utils.py
+utils/performance_metrics.py

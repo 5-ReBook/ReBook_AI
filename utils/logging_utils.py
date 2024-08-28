@@ -26,8 +26,9 @@ def setup_logger(name, log_file, level=logging.INFO):
     console_handler.setFormatter(formatter)
 
     logger = logging.getLogger(name)
-    logger.setLevel(level)
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)
+    if not logger.hasHandlers():  # 핸들러가 없는 경우에만 추가
+        logger.setLevel(level)
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
 
     return logger

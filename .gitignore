@@ -9,13 +9,14 @@ __pycache__/
 
 # Environment variables and config files
 .env
-config/
+configs/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 
 # Model checkpoints and logs
 checkpoints/
+logs/
 logs/
 
 # Virtual environment directories
@@ -33,5 +34,16 @@ data/*.json
 .DS_Store
 Thumbs.db
 
+# Environment and configuration files
+.env
+configs/environment.py  # 이 파일도 제외
+
+# Additional directories to ignore
+wandb/
+scripts/
+results/
+logs/
+tests/
+tmp_trainer/
 # Ignore vscode
 .vscode/
