@@ -4,21 +4,10 @@ uvicorn==0.30.3
 
 # Transformers 라이브러리 및 관련 Hugging Face 패키지
 transformers==4.44.0
-torch==2.3.1  # PyTorch 버전, GPU 사용 가능하게 설정
-datasets==2.20.0  # Hugging Face Datasets 라이브러리
+torch==2.3.1
 
-# 데이터 전처리 및 분석용 라이브러리
-pandas==2.2.2
-scikit-learn==1.4.2 
+# 데이터 검증 및 설정 관리
+pydantic==2.7.0
 
-# 환경 변수 관리
+# 환경 변수 관리 
 python-dotenv==0.21.0
-
-# 평가 및 기타 유틸리티
-psutil==5.9.0
-
-# WandB (Weights and Biases) - 모델 훈련 모니터링 도구
-wandb==0.17.7 
-
-# YAML 파일 읽기
-pyyaml==6.0.1
