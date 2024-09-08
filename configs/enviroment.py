@@ -17,3 +17,6 @@ MODEL_SAVE_PATH = os.getenv("MODEL_SAVE_PATH", "./checkpoints/")
 EPOCHS = int(os.getenv("EPOCHS", 10))
 LEARNING_RATE = float(os.getenv("LEARNING_RATE", 1e-5))
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", 2))
+
+# 유레카 서버 주소
+EUREKA_SERVER_URL = os.getenv("EUREKA_SERVER_URL", "http://be-eureka-server:8761/eureka/")

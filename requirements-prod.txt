@@ -5,3 +5,6 @@ uvicorn==0.30.3
 # Transformers 라이브러리 및 관련 Hugging Face 패키지
 transformers==4.44.0
 torch==2.3.1  # PyTorch 버전, GPU 사용 가능하게 설정
+
+# Eureka
+py-eureka-client==0.11.10

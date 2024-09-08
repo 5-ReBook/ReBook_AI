@@ -22,5 +22,5 @@ COPY . .
 ENV PYTHONUNBUFFERED=1
 
 # FastAPI 실행 (포트 80)
-EXPOSE 80
+#EXPOSE 80
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "80"]

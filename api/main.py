@@ -1,11 +1,32 @@
+import socket
 from fastapi import FastAPI, HTTPException
+from py_eureka_client.eureka_client import EurekaClient
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+from configs.enviroment import EUREKA_SERVER_URL
 from data.transforms import preprocess_text
 import torch
 from typing import Optional
 
 app = FastAPI()
+
+# Eureka 클라이언트 설정
+eureka_client = EurekaClient(
+    eureka_server=EUREKA_SERVER_URL,  # Eureka 서버의 URL 및 포트
+    app_name="rebook-ai",  # 등록할 애플리케이션 이름
+    instance_port=80,  # FastAPI 애플리케이션이 실행되는 포트
+    # instance_host="127.0.0.1"  # FastAPI 애플리케이션의 호스트 주소
+)
+
+@app.on_event("startup")
+async def on_startup():
+    await eureka_client.start()
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    await eureka_client.stop()
+
 
 # 모델 및 토크나이저 로드 (SafeTradeGuard_v2 모델 불러오기)
 model_name = "hyeongc/SafeTradeGuard_v2"

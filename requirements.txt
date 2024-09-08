@@ -22,3 +22,6 @@ wandb==0.17.7
 
 # YAML 파일 읽기
 pyyaml==6.0.1
+
+# Eureka
+py-eureka-client==0.11.10
