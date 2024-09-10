@@ -29,6 +29,7 @@ venv/
 # Dataset or large data files
 data/*.csv
 data/*.json
+data/*.txt
 
 # Ignore system files
 .DS_Store
