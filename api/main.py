@@ -30,13 +30,13 @@ model.eval()
 # 요청 데이터 모델 정의
 class ChatRequest(BaseModel):
     chat_room_id: int
-    sender_id: int
+    username: str
     message: str
 
 # 응답 데이터 모델 정의
 class ChatResponse(BaseModel):
     chat_room_id: int
-    sender_id: int
+    username: str
     result: int
     warning_message: Optional[str] = None  # Optional 필드로 설정
 
@@ -85,7 +85,7 @@ def predict_chat(chat: ChatRequest):
         
         return ChatResponse(
             chat_room_id=chat.chat_room_id,
-            sender_id=chat.sender_id,
+            username=chat.username,
             result=result,
             warning_message=warning_message  # None이면 필드가 반환되지 않음
         )
