@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from data.transforms import preprocess_text
@@ -30,15 +31,8 @@ model.eval()
 # 요청 데이터 모델 정의
 class ChatRequest(BaseModel):
     chat_room_id: int
-    sender_id: int
+    username: str
     message: str
-
-# 응답 데이터 모델 정의
-class ChatResponse(BaseModel):
-    chat_room_id: int
-    sender_id: int
-    result: int
-    warning_message: Optional[str] = None  # Optional 필드로 설정
 
 # 예측 함수 (전처리 + 토크나이징 + 예측)
 def predict_message(message: str):
@@ -77,17 +71,18 @@ def get_warning_message(result: int, message: str) -> Optional[str]:
     return warnings.get(result, None)
 
 # 메시지 예측 API 엔드포인트
-@app.post("/predict", response_model=ChatResponse)
+@app.post("/predict")
 def predict_chat(chat: ChatRequest):
     try:
         result = predict_message(chat.message)
         warning_message = get_warning_message(result, chat.message)
-        
-        return ChatResponse(
-            chat_room_id=chat.chat_room_id,
-            sender_id=chat.sender_id,
-            result=result,
-            warning_message=warning_message  # None이면 필드가 반환되지 않음
-        )
+
+        # JSONResponse로 직접 응답
+        return JSONResponse(content={
+            "chat_room_id": chat.chat_room_id,
+            "username": chat.username,  # sender_id를 username으로 변경
+            "result": result,
+            "warning_message": warning_message
+        })
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

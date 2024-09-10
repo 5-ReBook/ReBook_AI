@@ -16,6 +16,9 @@ from configs.environment import TRAIN_DATA_PATH
 # 환경 변수 설정
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+# MPS 디바이스 설정
+device = torch.device("mps") if torch.has_mps else torch.device("cpu")
+
 # WandB 로그인
 wandb.login()
 
@@ -30,7 +33,7 @@ early_stop_patient = config['early_stop_patient']
 weight_decay = config['weight_decay']
 
 # WandB 설정
-wandb.init(project="KTB_4.5Team_Project", name=f'{lr}_{batch_size}_text_classification_v10')
+wandb.init(project="KTB_4.5Team_Project", name=f'{lr}_{batch_size}_text_classification_v15')
 
 # 데이터 로드 및 전처리
 df = pd.read_csv(TRAIN_DATA_PATH)
@@ -70,6 +73,7 @@ val_dataset = CurseDataset(tokenized_val_sentences, val_label)
 
 # 모델 로드
 model = load_model(model_name, num_labels=4)
+model.to(device)  # 모델을 MPS 디바이스로 이동
 
 # 옵티마이저 설정
 optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
@@ -123,7 +127,7 @@ for param in model.parameters():
 trainer.train()
 
 # 모델 학습 완료 후 저장
-MODEL_SAVE_PATH = './checkpoints/best_model_v10'
+MODEL_SAVE_PATH = './checkpoints/best_model_v15'
 model.save_pretrained(MODEL_SAVE_PATH)  # 모델과 토크나이저를 함께 저장
 tokenizer.save_pretrained(MODEL_SAVE_PATH)
 print(f"Model and tokenizer saved to {MODEL_SAVE_PATH}")

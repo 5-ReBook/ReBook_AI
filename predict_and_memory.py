@@ -1,15 +1,11 @@
 import json
 import torch
-import wandb
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from data.transforms import preprocess_text
 import os
 
-# W&B 로그인
-wandb.login()
-
 # 모델 및 토크나이저 로드 (학습된 모델 불러오기)
-model_path = "./checkpoints/best_model_v10"  # 학습된 모델이 저장된 경로
+model_path = "./checkpoints/best_model_v14"  # 학습된 모델이 저장된 경로
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
@@ -43,9 +39,6 @@ def sentence_predict(sent):
     result = logits.argmax(-1)
     return result.item()
 
-# W&B 설정
-wandb.init(project="KTB_4.5Team_Project", name="model_v10_json_data_prediction")
-
 # JSON 파일에서 예측 데이터 읽기
 json_file_path = 'input_data.json'  # JSON 파일 경로를 하드코딩
 with open(json_file_path, 'r') as f:
@@ -65,9 +58,3 @@ for data in input_data:
         print(f"예측된 레이블: {predicted_label}")
     else:
         print("유효한 문장이 아닙니다.")
-
-# W&B에 예측 결과 기록
-wandb.log({"predictions": predictions})
-
-# W&B 종료
-wandb.finish()
