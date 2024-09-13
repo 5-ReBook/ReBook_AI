@@ -4,10 +4,16 @@ uvicorn==0.30.3
 
 # Transformers 라이브러리 및 관련 Hugging Face 패키지
 transformers==4.44.0
-torch==2.3.1
+torch==2.4.0  # 업데이트된 Torch 버전
 
 # 데이터 검증 및 설정 관리
-pydantic==2.7.0
+pydantic==2.5.3  # 요청된 버전으로 변경
 
 # 환경 변수 관리 
 python-dotenv==0.21.0
+
+# HTTP 요청 처리
+requests==2.32.2  # 추가된 Requests 라이브러리
+
+# OpenAI GPT API 호출
+openai==0.28.0  # 추가된 OpenAI 라이브러리
