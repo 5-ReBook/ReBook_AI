@@ -9,7 +9,6 @@ __pycache__/
 
 # Environment variables and config files
 .env
-configs/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
