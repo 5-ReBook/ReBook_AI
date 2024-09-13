@@ -114,7 +114,8 @@ async def get_warning_message(result: int, message: str) -> Optional[str]:
     # 그 외 피싱 등 다른 경고 메시지 처리
     warnings = {
         1: "경고: 피싱 메시지로 의심됩니다.",
-        2: "경고: 외부 메신저로 의심됩니다."
+        2: "경고: 외부 메신저로 의심됩니다.",
+        3: "경고: 계좌번호로 의심됩니다."
     }
     return warnings.get(result, None)
 
