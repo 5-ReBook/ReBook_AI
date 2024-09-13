@@ -7,27 +7,27 @@
     {
         "chat_room_id": 1020,
         "sender_id": 34567,
-        "message": "afhkajshdwuhbkjh"
+        "message": "소피아"
     },
     {
         "chat_room_id": 1030,
         "sender_id": 45678,
-        "message": "1h"
+        "message": "네네치킨"
     },
     {
         "chat_room_id": 1040,
         "sender_id": 56789,
-        "message": "3"
+        "message": "교촌치킨"
     },
     {
         "chat_room_id": 1050,
         "sender_id": 67890,
-        "message": "세글자"
+        "message": "프라닭"
     },
     {
         "chat_room_id": 1060,
         "sender_id": 78901,
-        "message": "삼글자"
+        "message": "피싱메시지"
     },
     {
         "chat_room_id": 1070,
@@ -57,11 +57,31 @@
     {
         "chat_room_id": 1120,
         "sender_id": 45678,
-        "message": "여기를 클릭하세요."
+        "message": "우와"
     },
     {
         "chat_room_id": 1130,
         "sender_id": 56789,
         "message": "주식코인 일타 강사 한채형! 강의 듣고 싶으면 여기를 클릭하세요"
+    },
+    {
+        "chat_room_id": 1120,
+        "sender_id": 45678,
+        "message": "냉면"
+    },
+    {
+        "chat_room_id": 1120,
+        "sender_id": 45678,
+        "message": "i want to buy it"
+    },
+    {
+        "chat_room_id": 1120,
+        "sender_id": 45678,
+        "message": "신한은행"
+    },
+    {
+        "chat_room_id": 1120,
+        "sender_id": 45678,
+        "message": "asdfguieiqa"
     }
 ]
